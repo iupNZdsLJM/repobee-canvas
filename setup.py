@@ -21,7 +21,7 @@ setup(
     name="repobee-canvas",
     version=__version__,
     description="Using RepoBee with Canvas assignments",
-    long_description=read<F11>me,
+    long_description=readme,
     long_description_content_type="text/markdown",
     author="Huub de Beer",
     author_email="h.t.d.beer@tue.nl",
