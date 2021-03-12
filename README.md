@@ -18,11 +18,18 @@ manual](https://docs.repobee.org/en/stable/index.html).
 ## Configure repobee-canvas
 
 1.  [Install](https://docs.repobee.org/en/stable/plugins.html#installing-plugins-the-install-action)
-    the `repobee-canvas` plugin.
+    the `repobee-canvas` plugin. In short:
+
+    ```
+    git clone https://github.com/htdebeer-tue/repobee-canvas
+    repobee plugin install --local repobee-canvas
+    ```
+
 2.  Generate a Canvas API key via "Account", "Settings", "+ New Access Token".
-3.  Get the Canvas course id.
+3.  Get the Canvas course id. You can find this by looking at the URL in your
+    webbrowser when you have opened the assignment.
 4.  Configure RepoBee Canvas with `repobee -p canvas config wizard`. The `-p
-    cnavas` enables the Canvas plugin. This command starts the configuration
+    canvas` enables the Canvas plugin. This command starts the configuration
     wizard. Choose the section "canvas". The wizard asks you to fill in:
 
     - `canvas_api_key`
@@ -75,9 +82,10 @@ manual](https://docs.repobee.org/en/stable/index.html).
 
 ## Running the assignment
 
-I have not developed any Canvas specific functionality yes. Use RepoBee
-standard functionality. I do plan to integrate with Canvas peer-review
-functionality.
+I have not developed any Canvas specific functionality yet. Use RepoBee
+standard functionality to run the assignment, like managing issues. 
+
+I do plan to integrate with Canvas peer-review functionality.
 
 ## Finishing  /  Clone + Upload assignment 
 
