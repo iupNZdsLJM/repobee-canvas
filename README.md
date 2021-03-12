@@ -79,7 +79,7 @@ I have not developed any Canvas specific functionality yes. Use RepoBee
 standard functionality. I do plan to integrate with Canvas peer-review
 functionality.
 
-# Finishing  /  Clone + Upload assignment 
+## Finishing  /  Clone + Upload assignment 
 
 You can run `repobe repos clone` as usual. However, if you want to upload and
 submit a ZIP file of the cloned student repository to Canvas, use command-line
