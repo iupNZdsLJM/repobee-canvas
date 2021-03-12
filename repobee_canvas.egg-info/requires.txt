@@ -1,4 +1,4 @@
-repobee>=3.0.0
+repobee>=3.6.0
 requests>=2.25
 
 [TEST]

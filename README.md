@@ -33,7 +33,7 @@ manual](https://docs.repobee.org/en/stable/index.html).
     wizard. Choose the section "canvas". The wizard asks you to fill in:
 
     - `canvas_api_key`
-    - `canvas_api_key` For example, "https://my.canvas.com/api/v1"
+    - `canvas_base_url` For example, "https://my.canvas.com/api/v1"
     - `canvas_course_id`
     - `canvas_start_assignment_message` Skip this field for now.
 

@@ -2,8 +2,12 @@ README.md
 setup.py
 repobee_canvas/__init__.py
 repobee_canvas/__version.py
+repobee_canvas/canvas.py
 repobee_canvas/canvas_git_map.py
-repobee_canvas/meh.py
+repobee_canvas/common_options.py
+repobee_canvas/generate_students_file.py
+repobee_canvas/logging.py
+repobee_canvas/prepare_canvas_assignment.py
 repobee_canvas.egg-info/PKG-INFO
 repobee_canvas.egg-info/SOURCES.txt
 repobee_canvas.egg-info/dependency_links.txt
@@ -14,6 +18,7 @@ repobee_canvas/canvas_api/api.py
 repobee_canvas/canvas_api/assignment.py
 repobee_canvas/canvas_api/assignment_override.py
 repobee_canvas/canvas_api/canvas_object.py
+repobee_canvas/canvas_api/comment.py
 repobee_canvas/canvas_api/course.py
 repobee_canvas/canvas_api/group.py
 repobee_canvas/canvas_api/peer_review.py

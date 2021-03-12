@@ -25,6 +25,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Huub de Beer",
     author_email="h.t.d.beer@tue.nl",
+    url="https://github.com/htdebeer-tue/repobee-canvas",
     license="EUPL1.2",
     packages=find_packages(exclude=("tests", "docs")),
     tests_require=test_requirements,
