@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: repobee-canvas
+Version: 0.0.1
+Summary: Using RepoBee with Canvas assignments
+Home-page: UNKNOWN
+Author: Huub de Beer
+Author-email: h.t.d.beer@tue.nl
+License: MIT
+Description: # repobee-canvas
+        Using RepoBee with Canvas assignments
+        
+        # License
+        See [LICENSE](LICENSE) for details.
+        
+        
+        
+        ```
+        repobee -p gitlab -p canvas repos setup --canvas-assignment-id 43786 --students-file students.lst --assignments test1
+        ```
+        
+Platform: UNKNOWN
+Description-Content-Type: text/markdown
+Provides-Extra: TEST
