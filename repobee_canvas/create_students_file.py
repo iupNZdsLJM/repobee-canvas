@@ -10,7 +10,7 @@
 # WARRANTY OR CONDITIONS OF ANY KIND, either express or implied. See the EUPL
 # for the specific language governing permissions and limitations under the
 # licence.
-"""Generate a students file from a Canvas assignment for use with RepoBee.
+"""Create a students file from a Canvas assignment for use with RepoBee.
 
 """
 import repobee_plug as plug
@@ -18,6 +18,8 @@ import repobee_plug as plug
 from .canvas_api.api import CanvasAPI
 from .canvas_api.assignment import Assignment
 from .canvas_git_map import CanvasGitMap
+
+from .canvas_category import CANVAS_CATEGORY
 
 from .common_options import CANVAS_API_KEY_OPTION
 from .common_options import CANVAS_COURSE_ID_OPTION
@@ -28,15 +30,15 @@ from .common_options import CANVAS_GIT_MAP
 
 from .logging import inform, warn
 
-class GenerateStudentsFile(plug.Plugin, plug.cli.Command):
-    """RepoBee command to generate a students file from a Canvas assignment.
+class CreateStudentsFile(plug.Plugin, plug.cli.Command):
+    """RepoBee command to create a students file from a Canvas assignment.
 
-    The CanvasStudentsFile class is a RepoBee plugin to generate a students file
+    The CanvasStudentsFile class is a RepoBee plugin to create a students file
     for a Canvas assignment: All students assigned to this assignment are
     listed and written to the students file. If the assignment is a group
     assignment, the student groups are written instead.
 
-    You have to use this plugin first to generate the students file and then use
+    You have to use this plugin first to create the students file and then use
     the student file to create and manage student repositories. See the Canvas
     plugin below for more information.
 
@@ -52,12 +54,12 @@ class GenerateStudentsFile(plug.Plugin, plug.cli.Command):
     configured, the command
 
     ```
-    repobee -p canvas generate-students-file \
+    repobee -p canvas canvas create-students-file \
             --canvas-assignment-id 23 \
             --canvas-git-map student_data.csv
     ```
 
-    will generate file `students.lst` with all Git account names of the
+    will create file `students.lst` with all Git account names of the
     students involved in assignment with ID=23.
 
     If you want to use a different output filename use option
@@ -65,9 +67,12 @@ class GenerateStudentsFile(plug.Plugin, plug.cli.Command):
 
     """
     __settings__ = plug.cli.command_settings(
-            action      = "generate-students-file",
-            help        = "generate students file",
-            description = "Generate the students file for a Canvas assignment for use with repobee",
+            action      = CANVAS_CATEGORY.create_students_file,
+            help        = "create students file",
+            description = (
+                "Create the students file for a Canvas assignment for use "
+                "with RepoBee."
+                )
             )
 
     canvas_api_key          = CANVAS_API_KEY_OPTION
@@ -84,7 +89,7 @@ class GenerateStudentsFile(plug.Plugin, plug.cli.Command):
         try:
             id_mapper = CanvasGitMap(self.canvas_git_map)
 
-            inform((f"""Generating students file for Canvas assignment """
+            inform((f"""Creating students file for Canvas assignment """
                     f"""{self.canvas_assignment_id} …"""))
 
             with open(self.canvas_students_file, "w") as students_file:

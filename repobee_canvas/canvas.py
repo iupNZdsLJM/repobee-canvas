@@ -6,8 +6,8 @@ import shutil
 import repobee_plug as plug
 
 # Other repobee-canvas commands:
+from .create_students_file import CreateStudentsFile
 from .prepare_canvas_assignment import PrepareCanvasAssignment
-from .generate_students_file import GenerateStudentsFile
 
 from .canvas_api.api import CanvasAPI
 from .canvas_api.assignment import Assignment

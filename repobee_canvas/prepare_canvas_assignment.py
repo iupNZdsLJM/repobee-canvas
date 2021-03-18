@@ -18,6 +18,8 @@ import repobee_plug as plug
 from .canvas_api.api import CanvasAPI
 from .canvas_api.assignment import Assignment
 
+from .canvas_category import CANVAS_CATEGORY
+
 from .common_options import CANVAS_API_KEY_OPTION
 from .common_options import CANVAS_API_BASE_URL_OPTION
 from .common_options import CANVAS_COURSE_ID_OPTION
@@ -74,9 +76,9 @@ class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
     the submission, it will get posted if checks pass.
     """
     __settings__ = plug.cli.command_settings(
-            action = "prepare-assignment",
-            help = ("Check configuration of the Canvas assignment and "
-                    "prepare the assignment for group work."),
+            action = CANVAS_CATEGORY.prepare_assignment,
+            help = ("check configuration of the Canvas assignment and "
+                    "prepare the assignment for group work"),
             description = (
                 "Check the configuration of the supplied Canvas "
                 "assignment for compatibility with the Canvas plugin "

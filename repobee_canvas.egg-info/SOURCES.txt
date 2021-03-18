@@ -3,6 +3,7 @@ setup.py
 repobee_canvas/__init__.py
 repobee_canvas/__version.py
 repobee_canvas/canvas.py
+repobee_canvas/canvas_category.py
 repobee_canvas/canvas_git_map.py
 repobee_canvas/common_options.py
 repobee_canvas/generate_students_file.py
