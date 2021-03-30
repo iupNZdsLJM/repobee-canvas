@@ -6,6 +6,7 @@ import shutil
 import repobee_plug as plug
 
 # Other repobee-canvas commands:
+from .init_course import InitCourse
 from .create_students_file import CreateStudentsFile
 from .prepare_canvas_assignment import PrepareCanvasAssignment
 
@@ -21,7 +22,7 @@ from .common_options import CANVAS_ZIP_NAME
 from .common_options import CANVAS_UPLOAD_ZIP
 from .common_options import CANVAS_GIT_MAP
 
-from .logging import inform, warn, fault
+from .tui            import inform, warn, fault
 
 URL_SUBMISSION = "online_url"
 
@@ -61,7 +62,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
         not yet have an account on Git, no message is posted.
         """
         try:
-            id_mapper = CanvasGitMap(self.canvas_git_map)
+            id_mapper = CanvasGitMap.load(self.canvas_git_map)
 
             url = repo.url
             students = [id_mapper.git2canvas(member_id) for member_id in repo.team.members]

@@ -16,6 +16,7 @@ from typing import List
 from .api import CanvasAPI, ID, SECTIONS
 from .canvas_object import CanvasObject
 from .section import Section
+from .user import User
 
 class Course (CanvasObject):
     """Canvas course.
@@ -50,3 +51,16 @@ class Course (CanvasObject):
             return [s for s in self._sections if s.name in names]
 
         return self._sections
+
+    def students(self) -> List[User]:
+        """The students in this course.
+
+        Returns:
+        A list of Canvas user objects representing all students in this
+        course.
+        """
+        if not self._students:
+            students = CanvasAPI().students_per_course(self.id)
+            self._students = [User(s) for s in students]
+
+        return self._students

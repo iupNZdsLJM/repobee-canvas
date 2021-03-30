@@ -28,7 +28,7 @@ from .common_options import CANVAS_STUDENTS_FILE
 from .common_options import CANVAS_API_BASE_URL_OPTION
 from .common_options import CANVAS_GIT_MAP
 
-from .logging import inform, warn
+from .tui import inform, warn
 
 class CreateStudentsFile(plug.Plugin, plug.cli.Command):
     """RepoBee command to create a students file from a Canvas assignment.
@@ -87,7 +87,7 @@ class CreateStudentsFile(plug.Plugin, plug.cli.Command):
         assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
 
         try:
-            id_mapper = CanvasGitMap(self.canvas_git_map)
+            id_mapper = CanvasGitMap.load(self.canvas_git_map)
 
             inform((f"""Creating students file for Canvas assignment """
                     f"""{self.canvas_assignment_id} …"""))

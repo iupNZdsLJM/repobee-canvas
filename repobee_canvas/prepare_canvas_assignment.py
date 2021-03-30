@@ -25,7 +25,7 @@ from .common_options import CANVAS_API_BASE_URL_OPTION
 from .common_options import CANVAS_COURSE_ID_OPTION
 from .common_options import CANVAS_ASSIGNMENT_ID_OPTION
 
-from .logging import inform, warn
+from .tui import inform, warn
 
 UPLOAD_SUBMISSION               = "online_upload"
 DEFAULT_PREPARATION_MESSAGE     = "This assignment is managed by repobee-canvas."

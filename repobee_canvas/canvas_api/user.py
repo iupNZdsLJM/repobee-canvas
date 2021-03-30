@@ -10,14 +10,16 @@
 # WARRANTY OR CONDITIONS OF ANY KIND, either express or implied. See the EUPL
 # for the specific language governing permissions and limitations under the
 # licence.
-"""Wrapper for a Canvas user profile API object."""
+"""Wrapper for a Canvas user API object."""
 from .api import CanvasAPI
 from .canvas_object import CanvasObject
 
 TEST_STUDENT_NAME = "Test Student"
+PUBLIC_USER_FIELDS = ["name", "sortable_name", "short_name", "sis_user_id",
+        "integration_id", "login_id", "email"]
 
 class User (CanvasObject):
-    """Canvas user profile
+    """Canvas user
 
     See https://canvas.instructure.com/doc/api/users.html
     """
@@ -25,7 +27,7 @@ class User (CanvasObject):
     @staticmethod
     def load(user_id : int):
         """
-        Load a Canvas user profile object.
+        Load a Canvas user object.
 
         Args:
         - user_id: The user id
@@ -35,3 +37,14 @@ class User (CanvasObject):
     def is_test_student(self) -> bool:
         """Return True if this user is the test student; False otherwise."""
         return self.name == TEST_STUDENT_NAME
+
+    def fields(self):
+        """Return the fields of this object."""
+        fields = {}
+        for key in PUBLIC_USER_FIELDS:
+            if key in self._data:
+                fields[key] = self._data[key]
+            else:
+                fields[key] = ""
+
+        return fields

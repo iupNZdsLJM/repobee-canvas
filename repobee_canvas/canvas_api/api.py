@@ -28,6 +28,7 @@ COURSE                  = "course"
 COURSE_ID               = "course_id"
 COURSES                 = "courses"
 EMPTY                   = ""
+ENROLLMENT_TYPE         = "enrollment_type[]"
 ERRORS                  = "errors"
 FILE                    = "file"
 FILE_IDS                = "file_ids"
@@ -50,6 +51,7 @@ PER_PAGE                = "per_page"
 PROFILE                 = "profile"
 SECTIONS                = "sections"
 SIZE                    = "size"
+STUDENT                 = "student"
 STUDENTS                = "students"
 SUBMISSION              = "submission"
 SUBMISSION_COMMENTS     = "submission_comments"
@@ -70,6 +72,7 @@ ASSIGNMENT_OVERRIDES    = {INCLUDE: [OVERRIDES]}
 ALL_SECTIONS            = {INCLUDE: [SECTIONS, TOTAL_STUDENTS]}
 ALL_STUDENTS            = {INCLUDE: [STUDENTS, TOTAL_STUDENTS]}
 WITH_COURSE             = {INCLUDE: [COURSE, SUBMISSION_COMMENTS]}
+COURSE_STUDENTS         = {ENROLLMENT_TYPE: [STUDENT]}
 
 # Canvas data parameters
 COMMENT_TEXT_COMMENT    = COMMENT       + "[" + TEXT_COMMENT    + "]"
@@ -160,6 +163,13 @@ class CanvasAPI:
         return self.__get({
             COURSES: course_id
             }, params = ALL_SECTIONS)
+
+    def students_per_course(self, course_id):
+        """Get students enrolled in a course."""
+        return self.__get({
+            COURSES: course_id,
+            USERS: EMPTY
+            }, params = COURSE_STUDENTS)
 
     def group(self, group_id):
         """Get group"""
@@ -378,7 +388,6 @@ class CanvasAPI:
         url = self._api_url
 
         for object, id in components.items():
-
             if id:
                 url += f"/{object}/{id}"
             else:

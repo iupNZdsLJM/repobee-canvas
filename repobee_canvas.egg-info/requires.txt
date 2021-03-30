@@ -1,5 +1,7 @@
+bullet>=2.2
 repobee>=3.6.0
 requests>=2.25
+tabulate>=0.8.9
 
 [TEST]
 pytest

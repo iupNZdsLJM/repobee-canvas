@@ -6,7 +6,8 @@ repobee_canvas/canvas.py
 repobee_canvas/canvas_category.py
 repobee_canvas/canvas_git_map.py
 repobee_canvas/common_options.py
-repobee_canvas/generate_students_file.py
+repobee_canvas/create_students_file.py
+repobee_canvas/init_course.py
 repobee_canvas/logging.py
 repobee_canvas/prepare_canvas_assignment.py
 repobee_canvas.egg-info/PKG-INFO
