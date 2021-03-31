@@ -7,8 +7,9 @@ import shutil
 import repobee_plug as plug
 
 # Other repobee-canvas commands:
-from .command.init_course               import InitCourse
+from .command.create_canvas_git_mapping import CreateCanvasGitMapping
 from .command.create_students_file      import CreateStudentsFile
+from .command.init_course               import InitCourse
 from .command.prepare_canvas_assignment import PrepareCanvasAssignment
 from .command.send_message              import SendMessage
 
@@ -20,9 +21,9 @@ from .common_options                    import CANVAS_ACCESS_TOKEN_OPTION
 from .common_options                    import CANVAS_API_BASE_URL_OPTION
 from .common_options                    import CANVAS_COURSE_ID_OPTION
 from .common_options                    import CANVAS_ASSIGNMENT_ID_OPTION
-from .common_options                    import CANVAS_ZIP_NAME
-from .common_options                    import CANVAS_UPLOAD_ZIP
-from .common_options                    import CANVAS_GIT_MAP
+from .common_options                    import CANVAS_ZIP_NAME_OPTION
+from .common_options                    import CANVAS_UPLOAD_ZIP_OPTION
+from .common_options                    import CANVAS_GIT_MAP_OPTION
 
 from .tui                               import inform, warn, fault
 
@@ -50,9 +51,9 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
     canvas_base_url         = CANVAS_API_BASE_URL_OPTION
     canvas_course_id        = CANVAS_COURSE_ID_OPTION
     canvas_assignment_id    = CANVAS_ASSIGNMENT_ID_OPTION
-    canvas_upload_zip       = CANVAS_UPLOAD_ZIP
-    canvas_zip_name         = CANVAS_ZIP_NAME
-    canvas_git_map          = CANVAS_GIT_MAP
+    canvas_upload_zip       = CANVAS_UPLOAD_ZIP_OPTION
+    canvas_zip_name         = CANVAS_ZIP_NAME_OPTION
+    canvas_git_map          = CANVAS_GIT_MAP_OPTION
 
 
     def post_setup(self, repo, api, newly_created):
@@ -64,7 +65,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
         not yet have an account on Git, no message is posted.
         """
         try:
-            canvas_git_mapping_table = CanvasGitMap.load(self.canvas_git_map)
+            canvas_git_mapping_table = CanvasGitMap.load(Path(self.canvas_git_map))
 
             students = [
                         canvas_git_mapping_table.git2canvas(member_id)

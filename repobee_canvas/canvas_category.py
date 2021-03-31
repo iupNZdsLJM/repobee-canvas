@@ -20,6 +20,7 @@ CANVAS_CATEGORY = plug.cli.category(
             "prepare_assignment",
             "init_course",
             "send_message",
+            "create_canvas_git_mapping",
             ],
         help            = "manage Canvas courses and assignments",
         description     = (

@@ -45,24 +45,24 @@ CANVAS_ASSIGNMENT_ID_OPTION = plug.cli.option(
 
 STUDENTS_FILE = "students.lst"
 
-CANVAS_STUDENTS_FILE = plug.cli.option(
+CANVAS_STUDENTS_FILE_OPTION = plug.cli.option(
         help = "File with students for a Canvas assignment",
         default = STUDENTS_FILE,
         configurable = True,
         )
 
-CANVAS_UPLOAD_ZIP = plug.cli.flag(
+CANVAS_UPLOAD_ZIP_OPTION = plug.cli.flag(
         help = "Upload students' cloned repositories as a ZIP file to Canvas.",
         default = False
         )
 
-CANVAS_ZIP_NAME = plug.cli.option(
+CANVAS_ZIP_NAME_OPTION = plug.cli.option(
         help = "Name of the ZIP file to generate of the cloned repository and to upload to Canvas.",
         required = False,
         configurable = True,
         )
 
-CANVAS_GIT_MAP = plug.cli.option(
+CANVAS_GIT_MAP_OPTION = plug.cli.option(
         help = "Map Canvas IDs to Git IDs and vice versa.",
         required = True,
         configurable = True,

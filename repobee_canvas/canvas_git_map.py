@@ -37,6 +37,7 @@ from .tui               import warn, inform
 
 CANVAS_ID               = "canvas_id"
 CANVAS_GIT_MAP_FILENAME = "canvas-git-map.csv"
+CANVAS_LOGIN_ID         = "login_id"
 FIELD_SEP               = ","
 GIT_ID                  = "git_id"
 HEAD                    = 5
@@ -120,8 +121,6 @@ class CanvasGitMap(Table):
 # Guide the user in creating a potential Canvas-Git mapping table for a
 # Canvas course.
 
-ASK_CANVAS_ID       = ("Which column do you want to use as the students' "
-                        "Canvas ID in the Canvas-Git mapping table?")
 ASK_GIT_ID          = ("Which column do you want to use as the students' "
                         "Git ID in the Canvas-Git mapping table?")
 ASK_EXTRA_COLUMNS   = ("Which extra columns to you want to add to the "
@@ -147,15 +146,10 @@ def canvas_git_map_table_wizard(course : Course) -> Table:
             f"Showing available data for {number_shown} of them: \n\n"
             f"{table}\n"))
 
+    canvas_id_key = CANVAS_LOGIN_ID
+    inform((f"The column '{canvas_id_key}' contains students' Canvas ID."))
+
     cli = VerticalPrompt([
-        Bullet(
-            prompt  = ASK_CANVAS_ID,
-            choices = PUBLIC_USER_FIELDS,
-            bullet  = " >",
-            margin  = 2,
-            align   = 1,
-            shift   = 1,
-        ),
         Bullet(
             prompt  = ASK_GIT_ID,
             choices = PUBLIC_USER_FIELDS,
@@ -174,7 +168,7 @@ def canvas_git_map_table_wizard(course : Course) -> Table:
         ),
     ])
 
-    canvas_id_key, git_id_key, extra_columns = [r for (p, r) in cli.launch()]
+    git_id_key, extra_columns = [r for (p, r) in cli.launch()]
 
     data = []
 
