@@ -13,22 +13,23 @@
 """Create a students file from a Canvas assignment for use with RepoBee.
 
 """
+from pathlib                    import Path
 import repobee_plug as plug
 
-from .canvas_api.api import CanvasAPI
-from .canvas_api.assignment import Assignment
-from .canvas_git_map import CanvasGitMap
+from ..canvas_api.api           import CanvasAPI
+from ..canvas_api.assignment    import Assignment
+from ..canvas_git_map           import CanvasGitMap
 
-from .canvas_category import CANVAS_CATEGORY
+from ..canvas_category          import CANVAS_CATEGORY
 
-from .common_options import CANVAS_API_KEY_OPTION
-from .common_options import CANVAS_COURSE_ID_OPTION
-from .common_options import CANVAS_ASSIGNMENT_ID_OPTION
-from .common_options import CANVAS_STUDENTS_FILE
-from .common_options import CANVAS_API_BASE_URL_OPTION
-from .common_options import CANVAS_GIT_MAP
+from ..common_options           import CANVAS_API_KEY_OPTION
+from ..common_options           import CANVAS_COURSE_ID_OPTION
+from ..common_options           import CANVAS_ASSIGNMENT_ID_OPTION
+from ..common_options           import CANVAS_STUDENTS_FILE
+from ..common_options           import CANVAS_API_BASE_URL_OPTION
+from ..common_options           import CANVAS_GIT_MAP
 
-from .tui import inform, warn
+from ..tui                      import inform
 
 class CreateStudentsFile(plug.Plugin, plug.cli.Command):
     """RepoBee command to create a students file from a Canvas assignment.
@@ -85,31 +86,29 @@ class CreateStudentsFile(plug.Plugin, plug.cli.Command):
     def command(self):
         CanvasAPI().setup(self.canvas_base_url, self.canvas_api_key)
         assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
+        canvas_git_mapping_table = CanvasGitMap.load(self.canvas_git_map)
+        create_students_file(assignment, canvas_git_mapping_table, Path(self.canvas_students_file))
+        inform(f"Students file written to '{self.canvas_students_file}'.")
 
-        try:
-            id_mapper = CanvasGitMap.load(self.canvas_git_map)
+def create_students_file(
+        assignment                  : Assignment,
+        canvas_git_mapping_table    : CanvasGitMap,
+        students_file               : Path,
+    ):
+    """Create a students file for a Canvas assignment."""
+    with students_file.open("w") as outfile:
 
-            inform((f"""Creating students file for Canvas assignment """
-                    f"""{self.canvas_assignment_id} …"""))
+        for submission in assignment.submissions():
 
-            with open(self.canvas_students_file, "w") as students_file:
+            if submission.is_group_submission():
+                group = [
+                        canvas_git_mapping_table.canvas2git(u.login_id)
+                        for u in submission.group().members()
+                        ]
+                outfile.write(" ".join(group))
+            else:
+                canvas_id   = submission.submitter().login_id
+                git_id      = canvas_git_mapping_table.canvas2git(canvas_id)
+                outfile.write(git_id)
 
-                for submission in assignment.submissions():
-
-                    if submission.is_group_submission():
-                        group = [
-                                id_mapper.canvas2git(u.login_id)
-                                for u in submission.group().members()
-                                ]
-                        students_file.write(" ".join(group))
-                    else:
-                        students_file.write(id_mapper.canvas2git(submission.submitter().login_id))
-
-                    students_file.write("\n")
-
-
-            inform(f"""Students file written to "{self.canvas_students_file}".""")
-
-        except ValueError as error:
-            warn((f"""Error reading/using Canvas/Git ID mapper file """
-                  f"""'{self.canvas_git_map}'. Reason: """), error)
+            outfile.write("\n")

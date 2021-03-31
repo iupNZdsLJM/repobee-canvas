@@ -13,19 +13,19 @@
 """Start managing a Canvas course for use with RepoBee.
 
 """
-from pathlib            import Path
+from pathlib             import Path
 import re
-from urllib.parse       import urlparse, urlunparse
+from urllib.parse        import urlparse, urlunparse
 
 import repobee_plug as plug
 
-from .canvas_api.api    import CanvasAPI
-from .canvas_api.course import Course
-from .canvas_category   import CANVAS_CATEGORY
-from .canvas_git_map    import CANVAS_GIT_MAP_FILENAME, CANVAS_ID, GIT_ID
-from .canvas_git_map    import canvas_git_map_table_wizard
+from ..canvas_api.api    import CanvasAPI
+from ..canvas_api.course import Course
+from ..canvas_category   import CANVAS_CATEGORY
+from ..canvas_git_map    import CANVAS_GIT_MAP_FILENAME, CANVAS_ID, GIT_ID
+from ..canvas_git_map    import canvas_git_map_table_wizard
 
-from .tui               import inform, warn, ask_closed, ask_dir, ask_open, ask_password
+from ..tui               import inform, warn, ask_closed, ask_dir, ask_open, ask_password
 
 CANVAS                      = "canvas"
 CANVAS_API_URL              = "canvas_base_url"
@@ -41,7 +41,6 @@ REPOBEE_ORG_NAME            = "org_name"
 REPOBEE_TEMPLATE_ORG_NAME   = "template_org_name"
 REPOBEE_TOKEN               = "token"
 REPOBEE_USER                = "user"
-
 
 
 class InitCourse(plug.Plugin, plug.cli.Command):

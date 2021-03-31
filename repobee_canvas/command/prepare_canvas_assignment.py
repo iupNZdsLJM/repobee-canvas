@@ -15,17 +15,17 @@
 """
 import repobee_plug as plug
 
-from .canvas_api.api import CanvasAPI
-from .canvas_api.assignment import Assignment
+from ..canvas_api.api           import CanvasAPI
+from ..canvas_api.assignment    import Assignment
 
-from .canvas_category import CANVAS_CATEGORY
+from ..canvas_category          import CANVAS_CATEGORY
 
-from .common_options import CANVAS_API_KEY_OPTION
-from .common_options import CANVAS_API_BASE_URL_OPTION
-from .common_options import CANVAS_COURSE_ID_OPTION
-from .common_options import CANVAS_ASSIGNMENT_ID_OPTION
+from ..common_options           import CANVAS_API_KEY_OPTION
+from ..common_options           import CANVAS_API_BASE_URL_OPTION
+from ..common_options           import CANVAS_COURSE_ID_OPTION
+from ..common_options           import CANVAS_ASSIGNMENT_ID_OPTION
 
-from .tui import inform, warn
+from ..tui                      import inform, warn
 
 UPLOAD_SUBMISSION               = "online_upload"
 DEFAULT_PREPARATION_MESSAGE     = "This assignment is managed by repobee-canvas."
@@ -111,7 +111,7 @@ class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
             for submission in assignment.submissions():
                 comments = [sc.comment for sc in submission.comments()]
 
-                if self.canvas_start_assignment_message not in comments: 
+                if self.canvas_start_assignment_message not in comments:
                     submission.add_comment(self.canvas_start_assignment_message)
 
             inform(("Assignment configuration is OKAY. "

@@ -1,34 +1,35 @@
 """Use RepoBee with a Canvas assignment"""
 import os
+from pathlib import Path
 import tempfile
 import shutil
 
 import repobee_plug as plug
 
 # Other repobee-canvas commands:
-from .init_course import InitCourse
-from .create_students_file import CreateStudentsFile
-from .prepare_canvas_assignment import PrepareCanvasAssignment
+from .command.init_course               import InitCourse
+from .command.create_students_file      import CreateStudentsFile
+from .command.prepare_canvas_assignment import PrepareCanvasAssignment
 
-from .canvas_api.api import CanvasAPI
-from .canvas_api.assignment import Assignment
-from .canvas_git_map  import CanvasGitMap
+from .canvas_api.api                    import CanvasAPI
+from .canvas_api.assignment             import Assignment
+from .canvas_git_map                    import CanvasGitMap
 
-from .common_options import CANVAS_API_KEY_OPTION
-from .common_options import CANVAS_API_BASE_URL_OPTION
-from .common_options import CANVAS_COURSE_ID_OPTION
-from .common_options import CANVAS_ASSIGNMENT_ID_OPTION
-from .common_options import CANVAS_ZIP_NAME
-from .common_options import CANVAS_UPLOAD_ZIP
-from .common_options import CANVAS_GIT_MAP
+from .common_options                    import CANVAS_API_KEY_OPTION
+from .common_options                    import CANVAS_API_BASE_URL_OPTION
+from .common_options                    import CANVAS_COURSE_ID_OPTION
+from .common_options                    import CANVAS_ASSIGNMENT_ID_OPTION
+from .common_options                    import CANVAS_ZIP_NAME
+from .common_options                    import CANVAS_UPLOAD_ZIP
+from .common_options                    import CANVAS_GIT_MAP
 
-from .tui            import inform, warn, fault
+from .tui                               import inform, warn, fault
 
 URL_SUBMISSION = "online_url"
 
 
 class Canvas(plug.Plugin, plug.cli.CommandExtension):
-    """
+    """RepoBee-Canvas plugin.
 
     Canvas is a RepoBee plugin to handle creating, managing, and cloning student
     repositories based on the information from a Canvas assignment. Due to
@@ -44,13 +45,13 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                 ]
             )
 
-    canvas_api_key = CANVAS_API_KEY_OPTION
-    canvas_base_url = CANVAS_API_BASE_URL_OPTION
-    canvas_course_id = CANVAS_COURSE_ID_OPTION
-    canvas_assignment_id = CANVAS_ASSIGNMENT_ID_OPTION
-    canvas_upload_zip = CANVAS_UPLOAD_ZIP
-    canvas_zip_name = CANVAS_ZIP_NAME
-    canvas_git_map = CANVAS_GIT_MAP
+    canvas_api_key          = CANVAS_API_KEY_OPTION
+    canvas_base_url         = CANVAS_API_BASE_URL_OPTION
+    canvas_course_id        = CANVAS_COURSE_ID_OPTION
+    canvas_assignment_id    = CANVAS_ASSIGNMENT_ID_OPTION
+    canvas_upload_zip       = CANVAS_UPLOAD_ZIP
+    canvas_zip_name         = CANVAS_ZIP_NAME
+    canvas_git_map          = CANVAS_GIT_MAP
 
 
     def post_setup(self, repo, api, newly_created):
@@ -62,11 +63,15 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
         not yet have an account on Git, no message is posted.
         """
         try:
-            id_mapper = CanvasGitMap.load(self.canvas_git_map)
+            canvas_git_mapping_table = CanvasGitMap.load(self.canvas_git_map)
+
+            students = [
+                        canvas_git_mapping_table.git2canvas(member_id)
+                        for member_id in repo.team.members
+                       ]
+            students_str = ", ".join(students)
 
             url = repo.url
-            students = [id_mapper.git2canvas(member_id) for member_id in repo.team.members]
-            students_str = ", ".join(students)
 
             if not newly_created:
                 inform((f"Re-run setup for: {students_str}. Gitlab URL "
@@ -84,7 +89,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                     submission = assignment.get_submission(students)
 
                     try:
-                        submission.add_comment(f"Project URL: {url}")
+                        submission.add_comment(f"Your project URL: {url}")
 
                     except ValueError as error:
                         fault("Unable to post URL as a comment. Reason: ", error)
@@ -93,15 +98,8 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                     warn((f"Unable to find submission related to "
                           f"repository '{url}' for '{students_str}'"), error)
 
-
-                # Warn about unused command-line option
-                if self.canvas_zip_name and not self.canvas_upload_zip:
-                    fault(("You can only specify a ZIP name when you also "
-                           "use option '--canvas-upload-zip'."))
-
         except ValueError as error:
             fault("Issue mapping student's Git ID to Canvas ID: ", error)
-
 
 
     def post_clone(self, repo, api):
@@ -114,22 +112,25 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                                   "'--canvas-zip-name NAME'."))
 
             try:
-                id_mapper = CanvasGitMap(self.canvas_git_map)
-                students = [id_mapper.git2canvas(member_id) for member_id in repo.team.members]
+                canvas_git_mapping_table = CanvasGitMap(self.canvas_git_map)
+                students = [
+                            canvas_git_mapping_table.git2canvas(member_id)
+                            for member_id in repo.team.members
+                           ]
                 students_str = ", ".join(students)
 
                 # Name and base directory
-                zip_name = self.canvas_zip_name
-                repo_base_dir = tempfile.mkdtemp()
-                repo_dir = os.path.join(repo_base_dir, zip_name)
-                shutil.copytree(repo.path, repo_dir)
+                zip_name        = self.canvas_zip_name
+                repo_base_dir   = tempfile.mkdtemp()
+                repo_dir        = Path(repo_base_dir, zip_name)
+                shutil.copytree(repo.path, str(repo_dir))
 
                 # Zip the repo
-                zip_base_dir = tempfile.mkdtemp()
-                zip_base_path = os.path.join(zip_base_dir, zip_name)
-                shutil.make_archive(zip_base_path, "zip", repo_base_dir, zip_name)
-                zip_file_name = f"{zip_name}.zip"
-                zip_file_path = f"{zip_base_path}.zip"
+                zip_base_dir    = tempfile.mkdtemp()
+                zip_base_path   = Path(zip_base_dir, zip_name)
+                zip_file_name   = f"{zip_name}.zip"
+                zip_file_path   = f"{str(zip_base_path)}.zip"
+                shutil.make_archive(str(zip_base_path), "zip", repo_base_dir, zip_name)
 
                 inform((f"Submit zipped cloned gitlab repo as "
                         f"'{zip_file_name}' to Canvas for: {students_str}."))
