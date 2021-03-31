@@ -16,8 +16,8 @@ commands.
 from urllib.parse import urlparse
 import repobee_plug as plug
 
-CANVAS_API_KEY_OPTION = plug.cli.option(
-            help = "The Canvas API key",
+CANVAS_ACCESS_TOKEN_OPTION = plug.cli.option(
+            help = "The Canvas access token",
             required = True,
             configurable = True,
             )

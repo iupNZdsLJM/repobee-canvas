@@ -109,15 +109,17 @@ class CanvasAPI:
             
         return cls._instance
 
-    def setup(self, api_url : str = None, api_key : str = None) -> None:
-        """Setup this CanvasAPI with an url and api key."""
+    def setup(self, api_url : str = None, access_token : str = None) -> None:
+        """Setup this CanvasAPI with an url and access token."""
         self._session = requests.Session()
 
         if api_url:
             self._api_url = api_url.geturl()
 
-        if api_key:
-            self._session.headers.update({AUTHORIZATION: BEARER.format(key=api_key)})
+        if access_token:
+            self._session.headers.update({
+                AUTHORIZATION: BEARER.format(key=access_token)
+            })
 
     def assignment(self, course_id, assignment_id):
         """Get assignment"""

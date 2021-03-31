@@ -22,7 +22,7 @@ from ..canvas_git_map           import CanvasGitMap
 
 from ..canvas_category          import CANVAS_CATEGORY
 
-from ..common_options           import CANVAS_API_KEY_OPTION
+from ..common_options           import CANVAS_ACCESS_TOKEN_OPTION
 from ..common_options           import CANVAS_COURSE_ID_OPTION
 from ..common_options           import CANVAS_ASSIGNMENT_ID_OPTION
 from ..common_options           import CANVAS_STUDENTS_FILE
@@ -76,7 +76,7 @@ class CreateStudentsFile(plug.Plugin, plug.cli.Command):
                 )
             )
 
-    canvas_api_key          = CANVAS_API_KEY_OPTION
+    canvas_access_token     = CANVAS_ACCESS_TOKEN_OPTION
     canvas_base_url         = CANVAS_API_BASE_URL_OPTION
     canvas_course_id        = CANVAS_COURSE_ID_OPTION
     canvas_assignment_id    = CANVAS_ASSIGNMENT_ID_OPTION
@@ -84,7 +84,7 @@ class CreateStudentsFile(plug.Plugin, plug.cli.Command):
     canvas_git_map          = CANVAS_GIT_MAP
 
     def command(self):
-        CanvasAPI().setup(self.canvas_base_url, self.canvas_api_key)
+        CanvasAPI().setup(self.canvas_base_url, self.canvas_access_token)
         assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
         canvas_git_mapping_table = CanvasGitMap.load(self.canvas_git_map)
         create_students_file(assignment, canvas_git_mapping_table, Path(self.canvas_students_file))

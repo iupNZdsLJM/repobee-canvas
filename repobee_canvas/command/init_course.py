@@ -32,7 +32,7 @@ CANVAS_API_URL              = "canvas_base_url"
 CANVAS_COURSE_ID            = "canvas_course_id"
 CANVAS_GIT_MAP              = "canvas_git_map"
 CANVAS_ID_KEY               = "login_id"
-CANVAS_TOKEN                = "canvas_api_key"
+CANVAS_TOKEN                = "canvas_access_token"
 
 REPOBEE                     = "repobee"
 REPOBEE_BASE_URL            = "base_url"

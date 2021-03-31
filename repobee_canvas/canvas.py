@@ -16,7 +16,7 @@ from .canvas_api.api                    import CanvasAPI
 from .canvas_api.assignment             import Assignment
 from .canvas_git_map                    import CanvasGitMap
 
-from .common_options                    import CANVAS_API_KEY_OPTION
+from .common_options                    import CANVAS_ACCESS_TOKEN_OPTION
 from .common_options                    import CANVAS_API_BASE_URL_OPTION
 from .common_options                    import CANVAS_COURSE_ID_OPTION
 from .common_options                    import CANVAS_ASSIGNMENT_ID_OPTION
@@ -46,7 +46,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                 ]
             )
 
-    canvas_api_key          = CANVAS_API_KEY_OPTION
+    canvas_access_token     = CANVAS_ACCESS_TOKEN_OPTION
     canvas_base_url         = CANVAS_API_BASE_URL_OPTION
     canvas_course_id        = CANVAS_COURSE_ID_OPTION
     canvas_assignment_id    = CANVAS_ASSIGNMENT_ID_OPTION
@@ -81,7 +81,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                 inform((f"Publishing gitlab URL ({url}) to Canvas for: "
                         f" {students_str}."))
 
-                CanvasAPI().setup(self.canvas_base_url, self.canvas_api_key)
+                CanvasAPI().setup(self.canvas_base_url, self.canvas_access_token)
                 assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
 
                 try:
@@ -137,7 +137,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                         f"'{zip_file_name}' to Canvas for: {students_str}."))
 
                 # Upload the ZIP file
-                CanvasAPI().setup(self.canvas_base_url, self.canvas_api_key)
+                CanvasAPI().setup(self.canvas_base_url, self.canvas_access_token)
                 assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
 
                 try:
