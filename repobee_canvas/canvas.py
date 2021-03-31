@@ -114,7 +114,7 @@ class Canvas(plug.Plugin, plug.cli.CommandExtension):
                                   "'--canvas-zip-name NAME'."))
 
             try:
-                canvas_git_mapping_table = CanvasGitMap(self.canvas_git_map)
+                canvas_git_mapping_table = CanvasGitMap.load(Path(self.canvas_git_map))
                 students = [
                             canvas_git_mapping_table.git2canvas(member_id)
                             for member_id in repo.team.members
