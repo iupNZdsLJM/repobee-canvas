@@ -18,7 +18,8 @@ CANVAS_CATEGORY = plug.cli.category(
         action_names    = [
             "create_students_file",
             "prepare_assignment",
-            "init_course"
+            "init_course",
+            "send_message",
             ],
         help            = "manage Canvas courses and assignments",
         description     = (

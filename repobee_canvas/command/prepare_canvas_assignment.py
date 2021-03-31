@@ -27,6 +27,8 @@ from ..common_options           import CANVAS_ASSIGNMENT_ID_OPTION
 
 from ..tui                      import inform, warn
 
+from .send_message              import send_message
+
 UPLOAD_SUBMISSION               = "online_upload"
 DEFAULT_PREPARATION_MESSAGE     = "This assignment is managed by repobee-canvas."
 
@@ -93,6 +95,7 @@ class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
     canvas_start_assignment_message     = CANVAS_START_ASSIGNMENT_MESSAGE_OPTION
 
     def command(self):
+        """Command to prepare a Canvas assignment for use with RepoBee."""
         CanvasAPI().setup(self.canvas_base_url, self.canvas_api_key)
         assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
 
@@ -108,12 +111,7 @@ class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
             # Prepare for group assignments by adding a comment. In Canvas,
             # submissions are linked to a single student until the first
             # comment or submission.
-            for submission in assignment.submissions():
-                comments = [sc.comment for sc in submission.comments()]
-
-                if self.canvas_start_assignment_message not in comments:
-                    submission.add_comment(self.canvas_start_assignment_message)
-
+            send_message(assignment, self.canvas_start_assignment_message)
             inform(("Assignment configuration is OKAY. "
                     "All Canvas submissions have been initialized."))
         else:
