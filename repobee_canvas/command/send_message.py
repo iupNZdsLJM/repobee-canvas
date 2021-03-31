@@ -41,12 +41,16 @@ class SendMessage(plug.Plugin, plug.cli.Command):
     canvas_course_id                    = CANVAS_COURSE_ID_OPTION
     canvas_assignment_id                = CANVAS_ASSIGNMENT_ID_OPTION
     message                             = plug.cli.positional(help = "URL of your course on Canvas")
+    resend                              = plug.cli.flag(
+        help = ("Send message regardless if it already appears in "
+                "a submission's comments"),
+    )
 
     def command(self):
         """Command to send a message to each submission of an assignment."""
         CanvasAPI().setup(self.canvas_base_url, self.canvas_api_key)
         assignment = Assignment.load(self.canvas_course_id, self.canvas_assignment_id)
-        send_message(assignment, self.message)
+        send_message(assignment, self.message, self.resend)
 
 def send_message(assignment : Assignment, message : str, resend : bool = False):
     """Send message to each submission of assignment.

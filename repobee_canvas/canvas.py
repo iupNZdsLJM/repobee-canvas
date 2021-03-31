@@ -10,6 +10,7 @@ import repobee_plug as plug
 from .command.init_course               import InitCourse
 from .command.create_students_file      import CreateStudentsFile
 from .command.prepare_canvas_assignment import PrepareCanvasAssignment
+from .command.send_message              import SendMessage
 
 from .canvas_api.api                    import CanvasAPI
 from .canvas_api.assignment             import Assignment

@@ -109,7 +109,6 @@ class Assignment (CanvasObject):
 
             self._submissions = submissions
 
-
         # Filtering
         all_filters = []
 
@@ -130,14 +129,10 @@ class Assignment (CanvasObject):
             for override in overrides:
                 override_students += override.students()
 
-            print(due_dates, [to_date(o.due_at) for o in self.overrides()])
-
-
             submissions = [s for s in submissions if any([u in override_students for u in s.students()])]
 
 
         include = lambda s : all([f(s) for f in all_filters])
-
 
         # Only intersted in one submission per group. Note. For a group
         # assignment, before any student or teacher has submitted
@@ -153,6 +148,5 @@ class Assignment (CanvasObject):
             else:
                 if include(submission):
                     submissions.append(submission)
-
 
         return submissions

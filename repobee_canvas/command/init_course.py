@@ -131,11 +131,11 @@ class InitCourse(plug.Plugin, plug.cli.Command):
         Path(course_dir).mkdir()
 
         path = f"{course_dir}/{CANVAS_GIT_MAP_FILENAME}"
-        inform(f"Created: {path}\t\t(Canvas-Git mapping table CSV file)")
+        inform(f"Created: {path}  ⇝  the Canvas-Git mapping table CSV file")
         mapping_table.write(Path(path))
 
         path = f"{course_dir}/{REPOBEE_CONFIG_FILENAME}"
-        inform(f"Created: {path}\t\t\t(RepoBee configuration file)")
+        inform(f"Created: {path}  ⇝  the RepoBee configuration file")
         repobee_config = plug.Config(Path(path))
 
         repobee_config.create_section(REPOBEE)
