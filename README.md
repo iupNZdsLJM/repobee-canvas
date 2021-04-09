@@ -30,22 +30,21 @@ manual](https://docs.repobee.org/en/stable/index.html).
     ```
 
 2.  Generate a Canvas API key via "Account", "Settings", "+ New Access Token".
-3.  Get the Canvas course id. You can find this by looking at the URL in your
-    webbrowser when you have opened the assignment.
-4.  Configure RepoBee Canvas with `repobee -p canvas config wizard`. The `-p
-    canvas` enables the Canvas plugin. This command starts the configuration
-    wizard. Choose the section "canvas". The wizard asks you to fill in:
 
-    - `canvas_access_token`
-    - `canvas_base_url` For example, "https://my.canvas.com/api/v1"
-    - `canvas_course_id`
-    - `canvas_start_assignment_message` Skip this field for now.
+3.  Run 
 
-5.  Create a CSV file to map students' Canvas IDs to their git IDs. This
-    CSV file should have at least two columns, one named
-    `canvas_id`, and the other `git_id`. More columns are allowed, even
-    recommended. For example, adding a `name` and `email` column makes looking
-    up IDs manually much easier.
+    ```
+    repobee canvas init-course https://url.to/your/course
+    ```
+
+    This starts a wizard to configure RepoBee for use with your Canvas course.
+    It creates a new directory and writes a RepoBee configuration file setup
+    for use with your course. As part of the wizard you also have to select
+    the fields for the Canvas-Git mapping table repobee-canvas uses to map
+    between student accounts in Canvas and in Git.
+
+Hereafter, change to this course's directory to run assignment-related
+commands, to setup student repos, and to clone student repos.
 
 ## Prepare and hand out the assignment
 

@@ -21,11 +21,12 @@ import repobee_plug as plug
 
 from ..canvas_api.api    import CanvasAPI
 from ..canvas_api.course import Course
-from ..canvas_category   import CANVAS_CATEGORY
+from .canvas_category   import CANVAS_CATEGORY
 from ..canvas_git_map    import CANVAS_GIT_MAP_FILENAME, CANVAS_ID, GIT_ID
 from ..canvas_git_map    import canvas_git_map_table_wizard
 
-from ..tui               import inform, warn, ask_closed, ask_dir, ask_open, ask_password
+from ..tui               import inform, warn, ask_closed, ask_dir, ask_open
+from ..tui               import ask_password, str_to_path
 
 CANVAS                      = "canvas"
 CANVAS_API_URL              = "canvas_base_url"
@@ -114,7 +115,7 @@ class InitCourse(plug.Plugin, plug.cli.Command):
         CanvasAPI().setup(canvas_api_url, canvas_access_token)
         course = Course.load(course_id)
 
-        course_dir     = ask_dir("Enter course directory name: ", _str_to_path(course.name))
+        course_dir     = ask_dir("Enter course directory name: ", str_to_path(course.name))
         mapping_table  = canvas_git_map_table_wizard(course)
         invalid_rows   = [r for r in mapping_table.rows() if not r[CANVAS_ID] or not r[GIT_ID]]
 
@@ -214,10 +215,3 @@ def _extract_course_id(url : str) -> int:
             f"Canvas course URL {url} is incorrect. "
              "Expected the URL to end like \"…/courses/1234\""
             )) from url_error
-
-
-def _str_to_path(string_path : str) -> str:
-    """Convert a string to a string suitable as a path."""
-    path = re.sub(r"\s+", "_", string_path)
-    path = re.sub(r"[^\w]", "", path)
-    return path

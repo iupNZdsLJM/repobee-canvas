@@ -11,12 +11,11 @@
 # for the specific language governing permissions and limitations under the
 # licence.
 """Wrapper for a Canvas assignment API object."""
-from datetime import datetime
-from .api import CanvasAPI, OVERRIDES
-from .canvas_object import CanvasObject
-from .course import Course
-from .submission import Submission
-from .assignment_override import AssignmentOverride
+from datetime               import datetime
+from .api                   import CanvasAPI, OVERRIDES
+from .assignment_override   import AssignmentOverride
+from .canvas_object         import CanvasObject
+from .submission            import Submission
 
 class Assignment (CanvasObject):
     """Canvas assignment.
@@ -30,7 +29,7 @@ class Assignment (CanvasObject):
         Load a Canvas assignment object.
 
         :param int course_id: The course id the assignment is part of
-        :param int assignment_id: The id of the assignment to load
+        :param int assignment_id: The id of the assignment to load.
         """
         return Assignment(CanvasAPI().assignment(course_id, assignment_id))
 
@@ -50,6 +49,7 @@ class Assignment (CanvasObject):
     def course(self):
         """The course this assignment is part of."""
         if not self._course:
+            from .course import Course
             self._course = Course.load(self.course_id)
 
         return self._course

@@ -16,11 +16,12 @@ import repobee_plug as plug
 CANVAS_CATEGORY = plug.cli.category(
         name            = "canvas",
         action_names    = [
-            "create_students_file",
-            "prepare_assignment",
-            "init_course",
-            "send_message",
             "create_canvas_git_mapping",
+            "create_students_file",
+            "init_assignment",
+            "init_course",
+            "prepare_assignment",
+            "send_message",
             ],
         help            = "manage Canvas courses and assignments",
         description     = (

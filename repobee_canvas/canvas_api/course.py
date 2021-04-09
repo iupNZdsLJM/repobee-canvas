@@ -11,12 +11,12 @@
 # for the specific language governing permissions and limitations under the
 # licence.
 """Wrapper for a Canvas course API object."""
-from typing import List
+from typing             import List
 
-from .api import CanvasAPI, ID, SECTIONS
-from .canvas_object import CanvasObject
-from .section import Section
-from .user import User
+from .api               import CanvasAPI, ID, SECTIONS, ASSIGNMENTS
+from .canvas_object     import CanvasObject
+from .section           import Section
+from .user              import User
 
 class Course (CanvasObject):
     """Canvas course.
@@ -32,6 +32,18 @@ class Course (CanvasObject):
         :param int course_id: The course id
         """
         return Course(CanvasAPI().course(course_id))
+
+    def assignments(self):
+        """The assignments of this course.
+        """
+        if not self._assignments:
+            from .assignment import Assignment
+            self._assignments = [
+                                    Assignment.load(self.id, a[ID]) for a in
+                                    CanvasAPI().assignments_per_course(self.id)
+                                ]
+        
+        return self._assignments
 
     def sections(self, names : List[str] = []) -> List[Section]:
         """The sections of this course.

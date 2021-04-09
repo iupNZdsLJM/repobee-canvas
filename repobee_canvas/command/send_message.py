@@ -16,7 +16,7 @@ import repobee_plug as plug
 from ..canvas_api.api           import CanvasAPI
 from ..canvas_api.assignment    import Assignment
 
-from ..canvas_category          import CANVAS_CATEGORY
+from .canvas_category          import CANVAS_CATEGORY
 
 from ..common_options           import CANVAS_ACCESS_TOKEN_OPTION
 from ..common_options           import CANVAS_API_BASE_URL_OPTION

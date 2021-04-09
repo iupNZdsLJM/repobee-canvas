@@ -18,26 +18,19 @@ import repobee_plug as plug
 from ..canvas_api.api           import CanvasAPI
 from ..canvas_api.assignment    import Assignment
 
-from ..canvas_category          import CANVAS_CATEGORY
+from .canvas_category           import CANVAS_CATEGORY
 
 from ..common_options           import CANVAS_ACCESS_TOKEN_OPTION
 from ..common_options           import CANVAS_API_BASE_URL_OPTION
 from ..common_options           import CANVAS_COURSE_ID_OPTION
 from ..common_options           import CANVAS_ASSIGNMENT_ID_OPTION
+from ..common_options           import CANVAS_START_ASSIGNMENT_MESSAGE_OPTION
 
 from ..tui                      import inform, warn
 
 from .send_message              import send_message
 
 UPLOAD_SUBMISSION               = "online_upload"
-DEFAULT_PREPARATION_MESSAGE     = "This assignment is managed by repobee-canvas."
-
-CANVAS_START_ASSIGNMENT_MESSAGE_OPTION = plug.cli.option(
-    help = "Message posted to a submission to indicate start of assignment",
-    required = False,
-    configurable = True,
-    default = DEFAULT_PREPARATION_MESSAGE
-)
 
 def check(requirement, success : str, failure : str) -> bool:
     """Check requirement. If okay, show success message and return True.

@@ -18,6 +18,7 @@ Functions:
 - fault: Show an error message.
 """
 from pathlib            import Path
+import re
 import sys
 
 from bullet             import Input, Password, YesNo
@@ -80,3 +81,9 @@ def ask_dir(question : str, suggestion : str = "") -> str:
         return ask_dir(question)
 
     return dir_name
+
+def str_to_path(string_path : str) -> str:
+    """Convert a string to a string suitable as a path."""
+    path = re.sub(r"\s+", "_", string_path)
+    path = re.sub(r"[^\w]", "", path)
+    return path

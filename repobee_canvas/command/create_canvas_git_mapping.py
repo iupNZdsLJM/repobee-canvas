@@ -17,7 +17,7 @@ import repobee_plug as plug
 from ..canvas_api.api           import CanvasAPI
 from ..canvas_api.course        import Course
 
-from ..canvas_category          import CANVAS_CATEGORY
+from .canvas_category          import CANVAS_CATEGORY
 from ..canvas_git_map           import canvas_git_map_table_wizard
 
 from ..common_options           import CANVAS_ACCESS_TOKEN_OPTION

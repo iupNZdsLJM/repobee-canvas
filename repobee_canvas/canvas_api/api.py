@@ -144,6 +144,13 @@ class CanvasAPI:
             OVERRIDES: EMPTY
             })]
 
+    def assignments_per_course(self, course_id):
+        """Get the assignments for a course"""
+        return self.__get({
+            COURSES: course_id,
+            ASSIGNMENTS: EMPTY
+            })
+
     def submissions_per_course(self, course_id, assignment_id):
         """Get submissions for an assignment"""
         return self.__get({

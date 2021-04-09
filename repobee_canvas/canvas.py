@@ -9,6 +9,7 @@ import repobee_plug as plug
 # Other repobee-canvas commands:
 from .command.create_canvas_git_mapping import CreateCanvasGitMapping
 from .command.create_students_file      import CreateStudentsFile
+from .command.init_assignment           import InitAssignment
 from .command.init_course               import InitCourse
 from .command.prepare_canvas_assignment import PrepareCanvasAssignment
 from .command.send_message              import SendMessage

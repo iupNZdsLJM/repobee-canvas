@@ -17,31 +17,40 @@ from urllib.parse import urlparse
 import repobee_plug as plug
 
 CANVAS_ACCESS_TOKEN_OPTION = plug.cli.option(
-            help = "The Canvas access token",
-            required = True,
-            configurable = True,
-            )
+        help = "The Canvas access token",
+        required = True,
+        configurable = True,
+        )
 
 CANVAS_API_BASE_URL_OPTION = plug.cli.option(
-            help = "The base URL to your Canvas installation",
-            converter = urlparse,
-            required = True,
-            configurable = True,
-            )
+        help = "The base URL to your Canvas installation",
+        converter = urlparse,
+        required = True,
+        configurable = True,
+        )
 
 CANVAS_COURSE_ID_OPTION = plug.cli.option(
-            help = "Canvas course id",
-            converter = int,
-            required = True,
-            configurable = True,
-            )
+        help = "Canvas course id",
+        converter = int,
+        required = True,
+        configurable = True,
+        )
 
 CANVAS_ASSIGNMENT_ID_OPTION = plug.cli.option(
-            help = "Canvas assignment id",
-            converter = int,
-            required = True,
-            configurable = True,
-            )
+        help = "Canvas assignment id",
+        converter = int,
+        required = True,
+        configurable = True,
+        )
+
+DEFAULT_PREPARATION_MESSAGE     = "This assignment is managed by repobee-canvas."
+
+CANVAS_START_ASSIGNMENT_MESSAGE_OPTION = plug.cli.option(
+        help = "Message posted to a submission to indicate start of assignment",
+        required = False,
+        configurable = True,
+        default = DEFAULT_PREPARATION_MESSAGE
+        )
 
 STUDENTS_FILE = "students.lst"
 
