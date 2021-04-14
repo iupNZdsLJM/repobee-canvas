@@ -71,8 +71,9 @@ CANVAS_ZIP_NAME_OPTION = plug.cli.option(
         configurable = True,
         )
 
+CANVAS_GIT_MAP_FILENAME = "canvas-git-map.csv"
 CANVAS_GIT_MAP_OPTION = plug.cli.option(
         help = "Map Canvas IDs to Git IDs and vice versa.",
-        required = True,
         configurable = True,
+        default = CANVAS_GIT_MAP_FILENAME,
         )

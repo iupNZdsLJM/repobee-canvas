@@ -46,6 +46,43 @@ manual](https://docs.repobee.org/en/stable/index.html).
 Hereafter, change to this course's directory to run assignment-related
 commands, to setup student repos, and to clone student repos.
 
+### Create Canvas-Git mapping table separately
+
+As part of the `init-course` command, the user generates a Canvas-Git mapping
+table CSV file unless there are no students. If you want to generate this
+mapping later, for example because more students have enrolled in your course
+by now, you can do the following steps:
+
+1.  Go to the directory created by `init-course`:
+
+    ```
+    cd course/dir/you/created
+    ```
+
+2.  Run
+
+    ```
+    repobee canvas create-canvas-git-mapping
+    ```
+
+You can also generate a Canvas-Git mapping table CSV file outside a course
+directory. However, you either need to have configured Canvas access, or state
+the API URL, your access token, and the course ID via command-line arguments.
+You also need to specify the mapping table's filename via the argument
+`--canvas-git-map`. For example:
+
+```
+repobee canvas create-canvas-git-mapping \
+  --canvas-access-token XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+  --canvas-base-url https://your.canv.as/api/v1/ \
+  --canvas-course-id 34 \
+  --canvas-git-map my_table.csv
+```
+
+This will create CSV file `my_table.csv` for course with ID = 34. The argument
+`--canvas-git-map` is optional, it defaults to `canvas-git-map.csv`.
+    
+
 ## Prepare and hand out the assignment
 
 1.  Prepare the assignment by running the command:

@@ -27,13 +27,14 @@ from ..canvas_api.api           import CanvasAPI
 from ..canvas_api.assignment    import Assignment
 from ..canvas_api.course        import Course
 from .canvas_category           import CANVAS_CATEGORY
-from ..canvas_git_map           import CANVAS_GIT_MAP_FILENAME, CANVAS_ID, GIT_ID
+from ..canvas_git_map           import CANVAS_ID, GIT_ID
 from ..canvas_git_map           import canvas_git_map_table_wizard
 
 from ..common_options           import CANVAS_ACCESS_TOKEN_OPTION
 from ..common_options           import CANVAS_API_BASE_URL_OPTION
 from ..common_options           import CANVAS_COURSE_ID_OPTION
 from ..common_options           import CANVAS_START_ASSIGNMENT_MESSAGE_OPTION
+from ..common_options           import CANVAS_GIT_MAP_FILENAME
 
 from ..tui                      import inform, warn, ask_closed, ask_open, ask_password
 from ..tui                      import ask_dir, str_to_path

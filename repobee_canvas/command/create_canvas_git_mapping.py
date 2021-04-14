@@ -17,13 +17,15 @@ import repobee_plug as plug
 from ..canvas_api.api           import CanvasAPI
 from ..canvas_api.course        import Course
 
-from .canvas_category          import CANVAS_CATEGORY
+from .canvas_category           import CANVAS_CATEGORY
 from ..canvas_git_map           import canvas_git_map_table_wizard
 
 from ..common_options           import CANVAS_ACCESS_TOKEN_OPTION
 from ..common_options           import CANVAS_API_BASE_URL_OPTION
 from ..common_options           import CANVAS_COURSE_ID_OPTION
 from ..common_options           import CANVAS_GIT_MAP_OPTION
+
+from ..tui                      import inform
 
 class CreateCanvasGitMapping(plug.Plugin, plug.cli.Command):
     """Create a Canvas-Git mapping table and write to file.
@@ -47,4 +49,6 @@ class CreateCanvasGitMapping(plug.Plugin, plug.cli.Command):
         CanvasAPI().setup(self.canvas_base_url, self.canvas_access_token)
         course = Course.load(self.canvas_course_id)
         canvas_git_mapping_table = canvas_git_map_table_wizard(course)
-        canvas_git_mapping_table.write(Path(self.canvas_git_map))
+        path = Path(self.canvas_git_map)
+        canvas_git_mapping_table.write(path)
+        inform(f"Created: {str(path)}  ⇝  the Canvas-Git mapping table CSV file")

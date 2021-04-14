@@ -33,10 +33,10 @@ from bullet             import Bullet, Check, VerticalPrompt
 from tabulate           import tabulate
 from .canvas_api.course import Course
 from .canvas_api.user   import PUBLIC_USER_FIELDS
+from .common_options    import CANVAS_GIT_MAP_FILENAME
 from .tui               import warn, inform
 
 CANVAS_ID               = "canvas_id"
-CANVAS_GIT_MAP_FILENAME = "canvas-git-map.csv"
 CANVAS_LOGIN_ID         = "login_id"
 FIELD_SEP               = ","
 GIT_ID                  = "git_id"

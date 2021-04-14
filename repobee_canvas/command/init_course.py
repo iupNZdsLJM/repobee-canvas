@@ -21,9 +21,10 @@ import repobee_plug as plug
 
 from ..canvas_api.api    import CanvasAPI
 from ..canvas_api.course import Course
-from .canvas_category   import CANVAS_CATEGORY
-from ..canvas_git_map    import CANVAS_GIT_MAP_FILENAME, CANVAS_ID, GIT_ID
+from .canvas_category    import CANVAS_CATEGORY
+from ..canvas_git_map    import CANVAS_ID, GIT_ID
 from ..canvas_git_map    import canvas_git_map_table_wizard
+from ..common_options    import CANVAS_GIT_MAP_FILENAME
 
 from ..tui               import inform, warn, ask_closed, ask_dir, ask_open
 from ..tui               import ask_password, str_to_path
