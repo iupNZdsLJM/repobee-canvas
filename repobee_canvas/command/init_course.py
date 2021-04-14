@@ -75,20 +75,22 @@ class InitCourse(plug.Plugin, plug.cli.Command):
 
         # Step 1. Collecting information about the course on Canvas and Git.
         if _valid_git_setup(self._config):
-            repobee_user            = self._config[REPOBEE][REPOBEE_USER]
-            repobee_base_url        = self._config[REPOBEE][REPOBEE_BASE_URL]
-            repobee_token           = self._config[REPOBEE][REPOBEE_TOKEN]
+            repobee_user              = self._config[REPOBEE][REPOBEE_USER]
+            repobee_base_url          = self._config[REPOBEE][REPOBEE_BASE_URL]
+            repobee_token             = self._config[REPOBEE][REPOBEE_TOKEN]
+            repobee_template_org_name = self._config[REPOBEE][REPOBEE_TEMPLATE_ORG_NAME]
+            repobee_org_name          = self._config[REPOBEE][REPOBEE_ORG_NAME]
 
             if ask_closed(
                 f"Use existing Git setup for user '{repobee_user}'? "):
-                repobee_token       = self._config[REPOBEE][REPOBEE_TOKEN]
+                repobee_token         = self._config[REPOBEE][REPOBEE_TOKEN]
             else:
-                repobee_base_url    = ask_open(
+                repobee_base_url      = ask_open(
                         "Enter the Git base URL: ",
                         repobee_base_url
                         )
-                repobee_user        = ask_open("Enter your Git username: ")
-                repobee_token       = ask_password("Enter your Git access token: ")
+                repobee_user          = ask_open("Enter your Git username: ")
+                repobee_token         = ask_password("Enter your Git access token: ")
 
         else:
             raise ValueError((
@@ -100,10 +102,14 @@ class InitCourse(plug.Plugin, plug.cli.Command):
 
         repobee_template_org_name   = ask_open((
             "Enter the template organization containing the "
-            "template repositories used in this course: "))
+            "template repositories used in this course: "),
+            default = repobee_template_org_name
+            )
         repobee_org_name            = ask_open((
             "Enter the target organization that is to contain the "
-            "student repositories used in this course's instance: "))
+            "student repositories used in this course's instance: "),
+            default = repobee_org_name
+            )
 
         course_id      = _extract_course_id(self.course_url)
         canvas_api_url = _extract_api_url(self.course_url)

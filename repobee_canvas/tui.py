@@ -54,9 +54,13 @@ def ask_password(question : str) -> str:
             hidden = "*",
             ).launch()
 
-def ask_open(question : str, default = None) -> str:
+def ask_open(question : str, default : str = None) -> str:
     """Ask the user an open question."""
-    return Input(prompt = question, strip = True, default = default).launch()
+    return Input(
+            prompt = question,
+            strip = True,
+            default = "" if default is None else default
+           ).launch()
 
 def ask_closed(question : str) -> str:
     """Ask the user an closed question."""
