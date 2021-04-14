@@ -83,6 +83,10 @@ class Table:
         for row in self._data:
             yield row
 
+    def empty(self):
+        """Return true if this table is empty, false otherwise."""
+        return 0 == len(self._data)
+
 class CanvasGitMap(Table):
     """Map Canvas IDs to Git IDs and vice versa. The CanvasGitMap uses a
     data table with at least two columns, "git_id" and "canvas_id", to perform
@@ -133,9 +137,8 @@ def canvas_git_map_table_wizard(course : Course) -> Table:
     students = course.students()
 
     if len(students) <= 0:
-        warn((f"No users found for course '{course.name}'. "
-               "Creating an empty Canvas-Git mapping table."))
-        return []
+        warn((f"No users found for course '{course.name}'."))
+        return Table([])
 
     number_of_students  = len(students)
     head                = min(number_of_students, HEAD)

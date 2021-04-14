@@ -118,6 +118,10 @@ class InitCourse(plug.Plugin, plug.cli.Command):
 
         course_dir     = ask_dir("Enter course directory name: ", str_to_path(course.name))
         mapping_table  = canvas_git_map_table_wizard(course)
+
+        if mapping_table.empty():
+            warn("Canvas-Git mapping table CSV file is not created.")
+
         invalid_rows   = [r for r in mapping_table.rows() if not r[CANVAS_ID] or not r[GIT_ID]]
 
         if len(invalid_rows) > 0:
@@ -129,15 +133,16 @@ class InitCourse(plug.Plugin, plug.cli.Command):
         # Step 2. Creating and filling a course directory with a Canvas-Git mapping
         # table and a RepoBee configuration file.
         inform("")
-        inform(f"Created: {course_dir}")
+        inform(f"Created directory : {course_dir}")
         Path(course_dir).mkdir()
 
-        path = f"{course_dir}/{CANVAS_GIT_MAP_FILENAME}"
-        inform(f"Created: {path}  ⇝  the Canvas-Git mapping table CSV file")
-        mapping_table.write(Path(path))
+        if not mapping_table.empty():
+            path = f"{course_dir}/{CANVAS_GIT_MAP_FILENAME}"
+            inform(f"Created file      : {path}     ⇝  the Canvas-Git mapping table CSV file")
+            mapping_table.write(Path(path))
 
         path = f"{course_dir}/{REPOBEE_CONFIG_FILENAME}"
-        inform(f"Created: {path}  ⇝  the RepoBee configuration file")
+        inform(f"Created file      : {path}     ⇝  the RepoBee configuration file")
         repobee_config = plug.Config(Path(path))
 
         repobee_config.create_section(REPOBEE)
@@ -155,7 +160,7 @@ class InitCourse(plug.Plugin, plug.cli.Command):
 
         repobee_config.store()
 
-        inform(f"Initialization course '{course.name}' complete!")
+        inform(f"\nInitialization course '{course.name}' complete!")
 
 
 # Private functions

@@ -25,7 +25,7 @@ from ..common_options           import CANVAS_API_BASE_URL_OPTION
 from ..common_options           import CANVAS_COURSE_ID_OPTION
 from ..common_options           import CANVAS_GIT_MAP_OPTION
 
-from ..tui                      import inform
+from ..tui                      import inform, warn
 
 class CreateCanvasGitMapping(plug.Plugin, plug.cli.Command):
     """Create a Canvas-Git mapping table and write to file.
@@ -49,6 +49,10 @@ class CreateCanvasGitMapping(plug.Plugin, plug.cli.Command):
         CanvasAPI().setup(self.canvas_base_url, self.canvas_access_token)
         course = Course.load(self.canvas_course_id)
         canvas_git_mapping_table = canvas_git_map_table_wizard(course)
-        path = Path(self.canvas_git_map)
-        canvas_git_mapping_table.write(path)
-        inform(f"Created: {str(path)}  ⇝  the Canvas-Git mapping table CSV file")
+
+        if canvas_git_mapping_table.empty():
+            warn("Canvas-Git mapping table CSV is not created.")
+        else:
+            path = Path(self.canvas_git_map)
+            canvas_git_mapping_table.write(path)
+            inform(f"Created file:  {str(path)}     ⇝  the Canvas-Git mapping table CSV file")
