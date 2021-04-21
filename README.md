@@ -117,13 +117,13 @@ This will create CSV file `my_table.csv` for course with ID = 34. The argument
     Run the command:
 
     ```
-    repobee canvas generate-students-file \
+    repobee canvas create-students-file \
       --canvas-assignment-id XXX \
       --canvas-git-map YYY.csv \
       --canvas-students-file ZZZ.lst
     ``` 
 
-    This generates the file "ZZZ.lst" containing the git IDs for the students
+    This creates the file "ZZZ.lst" containing the git IDs for the students
     participating in the assignment using the database "YYY.csv".
     
 3.  Generate the student repositories. Run command:
