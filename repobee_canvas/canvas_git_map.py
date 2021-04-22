@@ -137,7 +137,7 @@ def canvas_git_map_table_wizard(course : Course) -> Table:
     students = course.students()
 
     if len(students) <= 0:
-        warn((f"No users found for course '{course.name}'."))
+        warn((f"No students found for course '{course.name}'."))
         return Table([])
 
     number_of_students  = len(students)
