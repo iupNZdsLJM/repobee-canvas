@@ -27,7 +27,7 @@ from ..canvas_git_map    import canvas_git_map_table_wizard
 from ..common_options    import CANVAS_GIT_MAP_FILENAME
 
 from ..tui               import inform, warn, ask_closed, ask_dir, ask_open
-from ..tui               import ask_password, str_to_path
+from ..tui               import str_to_path
 
 CANVAS                      = "canvas"
 CANVAS_API_URL              = "canvas_base_url"
@@ -117,7 +117,7 @@ class InitCourse(plug.Plugin, plug.cli.Command):
         if _valid_canvas_setup(self._config, canvas_api_url):
             canvas_access_token = self._config[CANVAS][CANVAS_TOKEN]
         else:
-            canvas_access_token = ask_password("Enter your Canvas access token: ")
+            canvas_access_token = ask_open("Enter your Canvas access token: ")
 
         CanvasAPI().setup(canvas_api_url, canvas_access_token)
         course = Course.load(course_id)
