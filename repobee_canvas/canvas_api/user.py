@@ -14,7 +14,7 @@
 from .api import CanvasAPI
 from .canvas_object import CanvasObject
 
-TEST_STUDENT_NAME = "Test Student"
+TEST_STUDENT_NAME  = "test student"
 PUBLIC_USER_FIELDS = ["name", "sortable_name", "short_name", "sis_user_id",
         "integration_id", "login_id", "email"]
 
@@ -36,7 +36,7 @@ class User (CanvasObject):
 
     def is_test_student(self) -> bool:
         """Return True if this user is the test student; False otherwise."""
-        return self.name == TEST_STUDENT_NAME
+        return TEST_STUDENT_NAME in self.name.casefold()
 
     def fields(self):
         """Return the fields of this object."""
