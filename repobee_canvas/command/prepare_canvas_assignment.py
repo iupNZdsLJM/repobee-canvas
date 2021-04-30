@@ -30,7 +30,9 @@ from ..tui                      import inform, warn
 
 from .send_message              import send_message
 
-UPLOAD_SUBMISSION               = "online_upload"
+UPLOAD_SUBMISSION = "online_upload"
+IGNORE_MESSAGE    = ("Ignore this message. It is placed by "
+                     "repobee-canvas for administrative purposes.")
 
 def check(requirement, success : str, failure : str) -> bool:
     """Check requirement. If okay, show success message and return True.
@@ -47,28 +49,21 @@ def check(requirement, success : str, failure : str) -> bool:
 class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
     """ The PrepareCanvasAssignment class is a RepoBee plugin to check the
     configuration of an assignment: Is it configured correctly for use with the
-    Canvas plugin? In particular, does the assignment have both URL and file
+    Canvas plugin? In particular, does the assignment have file
     upload submission types enabled.
 
     Usage:
 
         repobee -p canvas prepare-assignment \
-                --canvas-assignment-id N \
-                [--canvas-start-assignment-message MSG]
+                --canvas-assignment-id N 
 
     Checks if assignment with ID N is configured correctly and allows file
-    uploads. Furthermore, to enable group assignments and be transparent to
-    students that this assignment is being managed by repobee-canvas, an
-    initial message is send. The message is only send once, and only if all
-    checks pass.
+    uploads.
 
-    You can configure your own message, or supply it via a command-line
-    argument. By default, the message is "This assignment is managed by
-    repobee-canvas.".
-
-    Hack: You can use this command to send messages to students in Canvas
-    submission: as long as the new message is different from any already in
-    the submission, it will get posted if checks pass.
+    Furthermore, to enable other canvas commands to recognize a group
+    submission, that group submission has to be created first. The
+    `prepare-assignment` command creates group submissions by sending a
+    message to each submission, and then removing that message again.
     """
     __settings__ = plug.cli.command_settings(
             action = CANVAS_CATEGORY.prepare_assignment,
@@ -85,7 +80,6 @@ class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
     canvas_base_url                     = CANVAS_API_BASE_URL_OPTION
     canvas_course_id                    = CANVAS_COURSE_ID_OPTION
     canvas_assignment_id                = CANVAS_ASSIGNMENT_ID_OPTION
-    canvas_start_assignment_message     = CANVAS_START_ASSIGNMENT_MESSAGE_OPTION
 
     def command(self):
         """Command to prepare a Canvas assignment for use with RepoBee."""
@@ -103,8 +97,20 @@ class PrepareCanvasAssignment(plug.Plugin, plug.cli.Command):
         if all(requirements):
             # Prepare for group assignments by adding a comment. In Canvas,
             # submissions are linked to a single student until the first
-            # comment or submission.
-            send_message(assignment, self.canvas_start_assignment_message)
+            # comment or submission. However, we can remove it again and the
+            # groups are still recognized.
+            for submission in assignment.submissions():
+                submission.add_comment(IGNORE_MESSAGE)
+                comments = submission.comments()
+
+                # If a comment has been added and it has the same message,
+                # delete it.
+                if comments:
+                    last_comment = comments[-1]
+
+                    if last_comment.comment == IGNORE_MESSAGE:
+                        submission.delete_comment(last_comment.id)
+            
             inform(("Assignment configuration is OKAY. "
                     "All Canvas submissions have been initialized."))
         else:

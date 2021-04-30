@@ -236,6 +236,15 @@ class CanvasAPI:
             SUBMISSIONS: user_id
             }, comment)
 
+    def delete_comment_from_submission(self, course_id, assignment_id, user_id, comment_id):
+        """Delete comment from submission."""
+        return self.__delete({
+            COURSES: course_id,
+            ASSIGNMENTS: assignment_id,
+            SUBMISSIONS: user_id,
+            COMMENTS: comment_id
+        })
+
     def user(self, user_id):
         """Get user"""
         return self.__get({USERS: user_id, PROFILE: EMPTY})
@@ -325,6 +334,12 @@ class CanvasAPI:
     def __put(self, components, data = {}):
         url = self._create_url(components)
         response = self._session.put(url, data = data)
+        self._check_response(response)
+        return response.json()
+
+    def __delete(self, components, data = {}):
+        url = self._create_url(components)
+        response = self._session.delete(url, data = data)
         self._check_response(response)
         return response
 

@@ -96,18 +96,11 @@ This will create CSV file `my_table.csv` for course with ID = 34. The argument
     uploads. If so, the command sends a welcome message to all students
     participating in the assignment. 
 
-    Sending a message to all students is needed to create a submission in
-    Canvas for each student group participating in the assignment. Without
-    this message, repobee-canvas cannot discover the students working in a group.
-
-    Furthermore, by sending a message like the default message "This
-    assignment is managed by repobee-canvas.", you are transparent about
-    repobee-canvas managing this assignment.
-
-    If you want to send a different message that the standard message, you can
-    either configure this globally via the config wizard, or use the
-    command-line option `--canvas-start-assignment-message`. *Note* You can
-    also use this command to send messages to Canvas submissions.
+    To create a submission in Canvas for each student group participating in
+    the assignment a message is send to each submission. Without this message,
+    repobee-canvas cannot discover the students working in a group. However,
+    this comment is immediately removed again, so you do not see it unless
+    something is going wrong.
 
 2.  Generate the students file used by RepoBee. RepoBee uses the students file
     to create a GitHub team or GitLab suborganization for groups of students

@@ -115,12 +115,21 @@ class Submission (CanvasObject):
 
     def add_comment(self, msg : str, file_path : str = None):
         """Add a new comment to this submission."""
-        return CanvasAPI().add_comment_to_submission(
+        self._data = CanvasAPI().add_comment_to_submission(
                     self.course().id,
                     self.assignment_id,
                     self.user_id,
                     msg,
                     file_path
+                )
+
+    def delete_comment(self, comment_id):
+        """Delete a comment from this submission."""
+        return CanvasAPI().delete_comment_from_submission(
+                    self.course().id,
+                    self.assignment_id,
+                    self.user_id,
+                    comment_id
                 )
 
     def submit_url(self, url : str, msg : str = None, submitted_at = None):
