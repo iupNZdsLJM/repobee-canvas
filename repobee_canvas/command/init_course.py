@@ -151,14 +151,22 @@ class InitCourse(plug.Plugin, plug.cli.Command):
         inform(f"Created file      : {path}     ⇝  the RepoBee configuration file")
         repobee_config = plug.Config(Path(path))
 
-        repobee_config.create_section(REPOBEE)
+        try:
+            repobee_config.create_section(REPOBEE)
+        except Exception as err:
+            print(err)
+
         repobee_config[REPOBEE][REPOBEE_BASE_URL]           = repobee_base_url
         repobee_config[REPOBEE][REPOBEE_USER]               = repobee_user
         repobee_config[REPOBEE][REPOBEE_TOKEN]              = repobee_token
         repobee_config[REPOBEE][REPOBEE_TEMPLATE_ORG_NAME]  = repobee_template_org_name
         repobee_config[REPOBEE][REPOBEE_ORG_NAME]           = repobee_org_name
 
-        repobee_config.create_section(CANVAS)
+        try:
+            repobee_config.create_section(CANVAS)
+        except Exception as err:
+            print(err)
+
         repobee_config[CANVAS][CANVAS_TOKEN]                = canvas_access_token
         repobee_config[CANVAS][CANVAS_API_URL]              = urlunparse(canvas_api_url)
         repobee_config[CANVAS][CANVAS_COURSE_ID]            = str(course_id)
